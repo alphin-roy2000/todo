@@ -1,0 +1,59 @@
+<div class="form-group">
+
+
+
+    <input
+
+      type="number"
+      class="form-control mb-3"
+      id="update-id"
+
+      placeholder="type id here"
+    />
+    <textarea
+    class="mb-4"
+    rows="5"
+    cols="30"
+    id="todo-content"
+    name="description"
+    placeholder="Todo content here"
+  ></textarea>
+  </div>
+  <button type="submit" id="update-button" class="btn btn-warning mb-3">
+    Submit
+  </button>
+  <div id="success-message"></div>
+</div>
+<script
+  src="https://code.jquery.com/jquery-3.1.1.js"
+  integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA="
+  crossorigin="anonymous"
+></script>
+<script> $(function () {
+    $("#update-button").on("click", function () {
+      var input = $("#update-id").val();
+      var formData = {
+        input: $("#todo-content").val(),
+      };
+      console.log("hi");
+      $.ajax({
+        type: "PUT",
+        contentType: "application/json",
+        data: JSON.stringify(formData),
+        url: "/todo/" + input,
+        success: function (output) {
+            if (output.status) {
+                document.getElementById("update-id").value = "";
+            document.getElementById("todo-content").value = "";
+            document.getElementById("success-message").innerHTML =
+              output.message;
+            setTimeout(function () {
+            
+
+              document.getElementById("success-message").innerHTML = "";
+            }, 3000);
+          }
+        },
+      });
+    });
+  });</script>

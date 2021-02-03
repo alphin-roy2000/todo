@@ -1,0 +1,44 @@
+<div class="form-group">
+  <input
+    type="number"
+    class="form-control mb-4"
+    id="delete-id"
+    aria-describedby="emailHelp"
+    placeholder="id here"
+  />
+  <button type="submit" id="delete-button" class="btn btn-danger mb-3">
+    Delete
+  </button>
+  <div id="delete-message"></div>
+</div>
+<script
+  src="https://code.jquery.com/jquery-3.1.1.js"
+  integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA="
+  crossorigin="anonymous"
+></script>
+<script>
+  $(function () {
+    $("#delete-button").on("click", function () {
+      var input = $("#delete-id").val();
+
+      console.log("hi");
+      $.ajax({
+        type: "DELETE",
+        contentType: "application/json",
+
+        url: "/todo/" + input,
+        success: function (output) {
+          if (output.status) {
+            document.getElementById("delete-id").value = "";
+
+            document.getElementById("delete-message").innerHTML =
+              output.message;
+            setTimeout(function () {
+              document.getElementById("delete-message").innerHTML = "";
+            }, 3000);
+          }
+        },
+      });
+    });
+  });
+</script>

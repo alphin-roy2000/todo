@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Todo</title>
+    <link rel="stylesheet" href="/pub/css/bootstrap.min.css" />
+    <style>
+      a:hover {
+        cursor: pointer;
+      }
+      .noselect {
+        -webkit-touch-callout: none; /* iOS Safari */
+        -webkit-user-select: none; /* Safari */
+        -khtml-user-select: none; /* Konqueror HTML */
+        -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+        user-select: none;
+      }
+      .loader {
+        border: 16px solid #f3f3f3;
+        border-top: 16px solid #3498db;
+        border-radius: 50%;
+        width: 120px;
+        height: 120px;
+        animation: spin 2s linear infinite;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="col-12 navbar navbar-expand-lg navbar-dark bg-dark static-top">
+      <div class="container">
+        <a class="navbar-brand" href="#"> TODO </a>
+
+        <div class="" id="navbarResponsive">
+          <div class="navbar-nav ml-auto noselect" id="navbaractive">
+            <li class="nav-item btnown active">
+              <a class="nav-link" id="add-page">Add-TODO</a>
+            </li>
+
+            <li class="nav-item btnown">
+              <a class="nav-link" id="show-page">Show</a>
+            </li>
+            <li class="nav-item btnown">
+              <a class="nav-link" id="update-page">Update</a>
+            </li>
+            <li class="nav-item btnown">
+              <a class="nav-link" id="delete-page">Delete</a>
+            </li>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <section class="py-5">
+      <div class="container">
+        <div class="row">
+          <div id="content">
+            <div class="form-group">
+              <textarea
+                class="mb-4"
+                rows="5"
+                cols="30"
+                id="todo-content"
+                name="description"
+                placeholder="Todo content here"
+              ></textarea>
+              <br />
+              <button
+                type="submit"
+                id="save-button"
+                class="btn btn-warning mb-2"
+              >
+                Save
+              </button>
+              <div class="success-message"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- <section class="py-5">
+      <div class="container">
+        <div class="row">
+          <div id="mainsection">
+            <div class="form-group">
+              <label>Todo</label>
+              <div id="target"></div>
+
+              <input
+                name="answer1"
+                type="text"
+                class="form-control"
+                id="level4input"
+                aria-describedby="emailHelp"
+                placeholder="type here"
+              />
+              <input
+                name="answer1"
+                type="text"
+                class="form-control"
+                id="level5input"
+                aria-describedby="emailHelp"
+                placeholder="type here"
+              />
+            </div>
+            <button type="submit" id="update-button" class="btn btn-warning">
+              Submit
+            </button>
+          </div>
+        </div>
+      </div>
+    </section> -->
+  </body>
+  <script
+    src="https://code.jquery.com/jquery-3.1.1.js"
+    integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA="
+    crossorigin="anonymous"
+  ></script>
+  <script>
+    var header = document.getElementById("navbaractive");
+    var btns = header.getElementsByClassName("btnown");
+    for (var i = 0; i < btns.length; i++) {
+      btns[i].addEventListener("click", function () {
+        var current = document.getElementsByClassName("active");
+        current[0].className = current[0].className.replace(" active", "");
+        this.className += " active";
+      });
+    }
+  </script>
+  <script>
+    $(function () {
+      $("#add-page").on("click", function () {
+        console.log("a");
+        $("#content").load("/pub/add.html");
+      });
+    });
+    $(function () {
+      $("#show-page").on("click", function () {
+        console.log("b");
+        $("#content").load("/pub/show.html");
+        $.ajax({
+          type: "GET",
+          contentType: "application/json",
+          url: "/todo",
+          success: function (output) {
+            for (var prop in output.result) {
+              document.getElementById("list-view").innerHTML +=
+                "<li><h6> id : " +
+                prop +
+                ", message: " +
+                output.result[prop].message +
+                "</h6></li>";
+            }
+          },
+        });
+      });
+    });
+    $(function () {
+      $("#delete-page").on("click", function () {
+        console.log("c");
+        $("#content").load("/pub/delete.html");
+      });
+    });
+    $(function () {
+      $("#update-page").on("click", function () {
+        console.log("d");
+        $("#content").load("/pub/update.html");
+      });
+    });
+    $(function () {
+      $(function () {
+        $("#save-button").on("click", function () {
+          var formData = {
+            input: $("#todo-content").val(),
+          };
+
+          $.ajax({
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(formData),
+            url: "/todo",
+            success: function (output) {
+              if (output.status) {
+                document.getElementById("todo-content").value = "";
+                document.getElementById("success-message").innerHTML =
+                  output.message;
+                setTimeout(function () {
+                  console.log("Asfasf");
+
+                  document.getElementById("success-message").innerHTML = "";
+                }, 3000);
+              }
+            },
+          });
+        });
+      });
+    });
+    $(function () {
+      $("#push-button").on("click", function () {
+        var formData = {
+          input: $("#level4input").val(),
+        };
+        // $("#mainsection").empty();
+        // document.getElementById("mainsection").innerHTML =
+        //   '<div class="loader text-center"></div> ';
+        // console.log("hi");
+        $.ajax({
+          type: "POST",
+          contentType: "application/json",
+          data: JSON.stringify(formData),
+          url: "/todo",
+          success: function (output) {
+            // $("#mainsection").empty();
+            // for (var prop in output.todolist) {
+            //   document.getElementById("mainsection").innerHTML +=
+            //     "<li>" + prop + "</li>";
+            // }
+          },
+        });
+      });
+    });
+
+    $(function () {
+      $("#delete-button").on("click", function () {
+        var input = $("#delete-id").val();
+
+        console.log("hi");
+        $.ajax({
+          type: "DELETE",
+          contentType: "application/json",
+
+          url: "/todo/" + input,
+          success: function (output) {},
+        });
+      });
+    });
+    $(function () {
+      $("#update-button").on("click", function () {
+        var input = $("#level4input").val();
+        var formData = {
+          input: $("#level5input").val(),
+        };
+        console.log("hi");
+        $.ajax({
+          type: "PUT",
+          contentType: "application/json",
+          data: JSON.stringify(formData),
+          url: "/todo/" + input,
+          success: function (output) {},
+        });
+      });
+    });
+  </script>
+</html>

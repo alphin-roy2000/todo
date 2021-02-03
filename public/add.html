@@ -1,0 +1,48 @@
+<div class="form-group">
+  <textarea
+    class="mb-4"
+    rows="5"
+    cols="30"
+    id="todo-content"
+    name="description"
+    placeholder="Todo content here"
+  ></textarea>
+  <br />
+  <button type="submit" id="save-button" class="btn btn-warning mb-2">
+    Save
+  </button>
+  <div id="success-message"></div>
+</div>
+<script
+  src="https://code.jquery.com/jquery-3.1.1.js"
+  integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA="
+  crossorigin="anonymous"
+></script>
+<script>
+  $(function () {
+    $("#save-button").on("click", function () {
+      var formData = {
+        input: $("#todo-content").val(),
+      };
+
+      $.ajax({
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify(formData),
+        url: "/todo",
+        success: function (output) {
+          if (output.status) {
+            document.getElementById("todo-content").value = "";
+            document.getElementById("success-message").innerHTML =
+              output.message;
+            setTimeout(function () {
+              console.log("Asfasf");
+
+              document.getElementById("success-message").innerHTML = "";
+            }, 3000);
+          }
+        },
+      });
+    });
+  });
+</script>
