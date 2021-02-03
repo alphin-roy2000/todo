@@ -40,7 +40,7 @@
         type: "PUT",
         contentType: "application/json",
         data: JSON.stringify(formData),
-        url: "/todo/" + input,
+        url: "/api/todo/" + input,
         success: function (output) {
             if (output.status) {
                 document.getElementById("update-id").value = "";

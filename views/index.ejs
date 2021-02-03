@@ -267,7 +267,7 @@
         $.ajax({
           type: "GET",
           contentType: "application/json",
-          url: "/todo",
+          url: "/api//todo",
           success: function (output) {
             $("#load").toggleClass("loader");
             document.getElementById("list-view").innerHTML +=
@@ -307,7 +307,7 @@
             type: "POST",
             contentType: "application/json",
             data: JSON.stringify(formData),
-            url: "/todo",
+            url: "/api//todo",
             success: function (output) {
               if (output.status) {
                 document.getElementById("todo-content").value = "";
@@ -337,7 +337,7 @@
           type: "POST",
           contentType: "application/json",
           data: JSON.stringify(formData),
-          url: "/todo",
+          url: "/api//todo",
           success: function (output) {
             // $("#mainsection").empty();
             // for (var prop in output.todolist) {
@@ -358,7 +358,7 @@
           type: "DELETE",
           contentType: "application/json",
 
-          url: "/todo/" + input,
+          url: "/api//todo/" + input,
           success: function (output) {},
         });
       });
@@ -374,7 +374,7 @@
           type: "PUT",
           contentType: "application/json",
           data: JSON.stringify(formData),
-          url: "/todo/" + input,
+          url: "/api/todo/" + input,
           success: function (output) {},
         });
       });

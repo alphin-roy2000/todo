@@ -26,7 +26,7 @@
         type: "DELETE",
         contentType: "application/json",
 
-        url: "/todo/" + input,
+        url: "/api/todo/" + input,
         success: function (output) {
           if (output.status) {
             document.getElementById("delete-id").value = "";

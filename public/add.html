@@ -29,7 +29,7 @@
         type: "POST",
         contentType: "application/json",
         data: JSON.stringify(formData),
-        url: "/todo",
+        url: "/api/todo",
         success: function (output) {
           if (output.status) {
             document.getElementById("todo-content").value = "";
