@@ -204,38 +204,6 @@
         </div>
       </div>
     </section>
-    <!-- <section class="py-5">
-      <div class="container">
-        <div class="row">
-          <div id="mainsection">
-            <div class="form-group">
-              <label>Todo</label>
-              <div id="target"></div>
-
-              <input
-                name="answer1"
-                type="text"
-                class="form-control"
-                id="level4input"
-                aria-describedby="emailHelp"
-                placeholder="type here"
-              />
-              <input
-                name="answer1"
-                type="text"
-                class="form-control"
-                id="level5input"
-                aria-describedby="emailHelp"
-                placeholder="type here"
-              />
-            </div>
-            <button type="submit" id="update-button" class="btn btn-warning">
-              Submit
-            </button>
-          </div>
-        </div>
-      </div>
-    </section> -->
   </body>
   <script
     src="https://code.jquery.com/jquery-3.1.1.js"
@@ -321,61 +289,6 @@
               }
             },
           });
-        });
-      });
-    });
-    $(function () {
-      $("#push-button").on("click", function () {
-        var formData = {
-          input: $("#level4input").val(),
-        };
-        // $("#mainsection").empty();
-        // document.getElementById("mainsection").innerHTML =
-        //   '<div class="loader text-center"></div> ';
-        // console.log("hi");
-        $.ajax({
-          type: "POST",
-          contentType: "application/json",
-          data: JSON.stringify(formData),
-          url: "/api//todo",
-          success: function (output) {
-            // $("#mainsection").empty();
-            // for (var prop in output.todolist) {
-            //   document.getElementById("mainsection").innerHTML +=
-            //     "<li>" + prop + "</li>";
-            // }
-          },
-        });
-      });
-    });
-
-    $(function () {
-      $("#delete-button").on("click", function () {
-        var input = $("#delete-id").val();
-
-        console.log("hi");
-        $.ajax({
-          type: "DELETE",
-          contentType: "application/json",
-
-          url: "/api//todo/" + input,
-          success: function (output) {},
-        });
-      });
-    });
-    $(function () {
-      $("#update-button").on("click", function () {
-        var input = $("#level4input").val();
-        var formData = {
-          input: $("#level5input").val(),
-        };
-        console.log("hi");
-        $.ajax({
-          type: "PUT",
-          contentType: "application/json",
-          data: JSON.stringify(formData),
-          url: "/api/todo/" + input,
-          success: function (output) {},
         });
       });
     });
